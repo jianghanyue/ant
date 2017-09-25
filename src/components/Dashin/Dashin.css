@@ -1,0 +1,12 @@
+.dashin .ant-menu-inline, .ant-menu-vertical{
+  border-right: 0;
+}
+.dashin{
+  display: flex;
+}
+.luyou{
+  flex-grow: 1
+}
+.news button{
+  margin-bottom: 20px;
+}

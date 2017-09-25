@@ -1,0 +1,11 @@
+@import '~antd/dist/antd.css';
+.home{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.inp{
+  padding: 20px;
+  width: 300px;
+  margin: 0 auto
+}
