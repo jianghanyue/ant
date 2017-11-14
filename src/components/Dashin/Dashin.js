@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import './Dashin.css'
 import styled from 'styled-components'
-import {
-  Link
-} from 'react-router-dom'
-import { Menu, Icon } from 'antd';
+import { Menu, Icon } from 'antd'
 import Luyou from '../Luyou/Luyou'
-const SubMenu = Menu.SubMenu;
+import { withRouter } from 'react-router-dom'
+import store from '../../redux/store'
+const SubMenu = Menu.SubMenu
 
 
 const Aside = styled.div`
@@ -30,12 +29,6 @@ const Shu = styled.div`
 
 const Main = styled.div`
   flex-grow:1
-`
-const Right = styled.div`
-  background-color:#404040;
-  padding-top:64px;
-  flex-grow:1;
-  display:flex;
 `
 const Down = styled.div`
   background-color: #ececec;
@@ -69,6 +62,7 @@ class Dashin extends Component {
   rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
  state = {
    openKeys: ['sub1'],
+   selectedKeys:[]
  };
  onOpenChange = (openKeys) => {
    const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
@@ -80,7 +74,28 @@ class Dashin extends Component {
      });
    }
  }
+ logOut = () => {
+   window.localStorage.removeItem('UserId')
+   this.props.history.push('/')
+ }
+ handeleClick = (e) => {
+   this.props.history.push(e.key)
+   const path = e.key
+   store.dispatch({ type: 'UPDATA_SELECTED_KEYS', path })
+   console.log("sadas", store.getState().selectedKeys);
+   console.log(path);
+ }
+
+ componentDidMount = () => {
+   console.log(store.getState())
+   const path = this.props.history.location.pathname
+   store.dispatch({ type: 'LOAD_SELECTED_KEYS', path })
+    this.setState({
+      selectedKeys: store.getState().selectedKeys
+    })
+ }
   render () {
+    console.log();
     return (
       <div className='dashin'>
         <Aside>
@@ -88,22 +103,26 @@ class Dashin extends Component {
           <Main>
             <Menu
               mode="inline"
-              openKeys={this.state.openKeys}
-              onOpenChange={this.onOpenChange}
+              defaultOpenKeys={['dishes', 'orders']}
               style={{ width: 200 }}
+              selectedKeys={store.getState().selectedKeys}
+              onClick={
+                this.handeleClick
+              }
             >
-              <SubMenu key="sub1" title={<span><Icon type="file" /><span>订单管理</span></span>}>
-                <Menu.Item key="1">待发货</Menu.Item>
-                <Menu.Item key="2"><Link to='/dashin/completed'>已完成</Link></Menu.Item>
+              <SubMenu key="orders" title={<span><Icon type="file" /><span>订单管理</span></span>}>
+                <Menu.Item key="/dashin">待发货</Menu.Item>
+                <Menu.Item key="/dashin/completeder">已完成</Menu.Item>
               </SubMenu>
-              <SubMenu key="sub2" title={<span><Icon type="file" /><span>甜点管理</span></span>}>
-                <Menu.Item key="5"><Link to='/dashin/dashes'>所有甜点</Link></Menu.Item>
-                <Menu.Item key="6"><Link to='/dashin/dashes/new'>新建甜点</Link></Menu.Item>
+              <SubMenu key="dishes" title={<span><Icon type="file" /><span>甜点管理</span></span>}>
+                <Menu.Item key="/dashin/dashes">所有甜点</Menu.Item>
+                <Menu.Item key="/dashin/dashes/new">新建甜点</Menu.Item>
               </SubMenu>
             </Menu>
           </Main>
           <Down>
-            <Dengchu>
+            <Dengchu
+              onClick={this.logOut}>
               登出
             </Dengchu>
             <Admin>
@@ -116,4 +135,4 @@ class Dashin extends Component {
     )
   }
 }
-export default Dashin
+export default withRouter(Dashin)

@@ -1,25 +1,29 @@
 import React, { Component } from 'react'
 import {
-  HashRouter as Router,
-  Route
+  Route,
+  Switch
 } from 'react-router-dom'
-import Dashin from '../Dashin/Dashin'
 import Completed from '../Completed/Completed'
+import Completeder from '../Completeder/Completeder'
 import Dashes from '../Dashes/Dashes'
 import New from '../New/New'
+import NotFound from './NotFound'
 import './Luyou.css'
+
 
 class Luyou extends Component {
   render () {
     return (
-      <Router>
         <div className="luyou">
           <div></div>
-          <Route path='/dashin/completed' component={Completed} />
-          <Route exact path='/dashin/dashes' component={Dashes} />
-          <Route path='/dashin/dashes/new' component={New} />
+          <Switch>
+            <Route exact path='/dashin' component={Completed} />
+            <Route path='/dashin/completeder' component={Completeder} />
+            <Route path='/dashin/dashes/new' component={New} />
+            <Route path='/dashin/dashes' component={Dashes} />
+            <Route component={NotFound} />
+          </Switch>
         </div>
-      </Router>
     )
   }
 }

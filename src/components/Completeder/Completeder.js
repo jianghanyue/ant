@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
-import './Completed.css'
 import { Table, message } from 'antd';
 import styled from 'styled-components'
-import {
-  Link
-} from 'react-router-dom'
 import axios from 'axios'
 
 const Tablec =styled.div`
@@ -62,12 +58,12 @@ const columns = [{
   key: 'id',
   render: (id) => (
     <span>
-      <Link to='' onClick={(e)=>this.handleonClick(e,id)}>发货</Link>
+      <span>√</span>
     </span>
   ),
 }];
 
-const data = this.state.data.filter( t => t.completed === false)
+const data = this.state.data.filter( t => t.completed === true)
     return (
       <div className='completed'>
         <Tablec>

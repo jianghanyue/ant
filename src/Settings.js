@@ -1,7 +1,8 @@
 const Settings = {
   user: {
     username: 'admin',
-    password: 'admin'
+    password: 'admin',
+    UserId: '3345',
   }
 }
 
